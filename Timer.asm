@@ -38,3 +38,20 @@ Wuerfeln:
 setb TR0	;Timer starten
 mov R5,#00h	;Zähler der gezeigten Zahlen zurücksetzen
 ret
+
+LadeZahl:
+jnb R4.6,Hole0bis9
+jnb R4.7,Hole1bis6
+jmp Hole8051
+EndeLadeZahl:
+ret
+
+Hole0bis9:
+; Aufruf
+jmp EndeLadeZahl
+Hole1bis6:
+; Aufruf
+jmp EndeLadeZahl
+Hole8051:
+; Aufruf
+jmp EndeLadeZahl
