@@ -1,1 +1,5 @@
 *~
+*.adf
+*.bin
+*.hex
+*.lst
