@@ -40,8 +40,9 @@ mov R5,#00h	;Zähler der gezeigten Zahlen zurücksetzen
 ret
 
 LadeZahl:
-jnb R4.6,Hole0bis9
-jnb R4.7,Hole1bis6
+mov A,R4
+jnb A.6,Hole0bis9
+jnb A.7,Hole1bis6
 jmp Hole8051
 EndeLadeZahl:
 ret
@@ -55,3 +56,5 @@ jmp EndeLadeZahl
 Hole8051:
 ; Aufruf
 jmp EndeLadeZahl
+
+END
