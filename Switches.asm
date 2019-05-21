@@ -5,7 +5,7 @@ jmp aenderunsAbfrage
 ret
 
 initialisierung:
-mov R6,#00h
+mov R4,#00h
 mov A,P0.0
 mov B,P0.1
 mov C,P0.2
@@ -13,13 +13,13 @@ jmp aenderungsAbfrage
 ret
 
 aenderungsAbfrage:
-cjne A,R6.0,schalter1
-cjne B,R6.1,schalter2
-cjne C,R6.2,schalter3
+cjne A,R4.0,schalter1
+cjne B,R4.1,schalter2
+cjne C,R4.2,schalter3
 ret
 
 aenderungsSpeicherung:
-mov R6,P0
+mov R4,P0
 ret
 
 schalter1:
