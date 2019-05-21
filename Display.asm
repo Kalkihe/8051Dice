@@ -1,12 +1,11 @@
 display:
-mov DPTR, #table
-mov a, R7
-movc a, @a+dptr
-mov P3, a
+mov DPTR, #table ;Load table data to data pointers location
+mov A, R7 ;Move number into A
+movc A, @A+DPTR  ;Get matching 7 segment pattern
+mov P1, A ;Move pattern into Port 1
 ret
 
-org 300h
-table:
+table:	;Contains 7 segment data for each number
 db 11000000b
 db 11111001b, 10100100b, 10110000b
 db 10011001b, 10010010b, 10000010b
