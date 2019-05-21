@@ -25,7 +25,7 @@ mov A,R4
 clr A.6
 setb A.7
 mov R4,A		;set mode bits to "01" (1) for 0-9 dice
-ret
+ret			;placeholder - shuld be "jmp" to somewhere
 
 switch2:
 ;1-6 dice
@@ -34,7 +34,7 @@ mov A,R4
 setb A.6
 clr A.7
 mov R4,A		;set mode bits to "01" (1) for 0-9 dice
-ret
+ret			;placeholder - shuld be "jmp" to somewhere
 
 switch3:
 ;8051 dice
@@ -43,4 +43,4 @@ mov A,R4
 setb A.6
 setb A.7
 mov R4,A		;set mode bits to "01" (1) for 0-9 dice
-ret
+ret			;placeholder - shuld be "jmp" to somewhere
