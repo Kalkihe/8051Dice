@@ -1,9 +1,6 @@
 ;File for the main routine, polling switches
 
-jmp init 
-jmp switchDetermination
-
-init:
+initSwitches:
 ;only once
 mov R4.0,0
 mov R4.1,0
