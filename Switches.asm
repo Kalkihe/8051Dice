@@ -1,43 +1,45 @@
 ;File for the main routine, polling switches
 
 jmp init 
-jmp schalterBestimmung
+jmp switchDetermination
 
 init:
+;only once
 mov R4.0,0
 mov R4.1,0
 mov R4.2,0
 ret
 
-schalterBestimmung:
-mov A,P0.0
-cjne A,R4.0,schalter1
-mov A,P0.1
-cjne A,R4.1,schalter2
-mov A,P0.2
-cjne A,R4.2,schalter3
+switchDetermination:
+;call this everytime after you called "init" once
+mov A,P0.0 ;P0.0 is the pin for switch1
+cjne A,R4.0,switch1
+mov A,P0.1 ;P0.1 is the pin for switch2
+cjne A,R4.1,switch2
+mov A,P0.2 ;P0.2 is the pin for switch3
+cjne A,R4.2,switch3
 ret
 
-aenderungsSpeicherung:
-mov R4.0,P0.0
-mov R4.1,P0.1
-mov R4.2,P0.2
+saveSwitchStates:
+mov R4.0,P0.0 ;save current state of switch1
+mov R4.1,P0.1 ;save current state of switch2
+mov R4.2,P0.2 ;save current state of switch3
 ret
 
-schalter1:
-;0-9 wuerfel
-jmp aenderungsSpeicherung
-jmp wuerfel1 ;placeholder
+switch1:
+;0-9 dice
+jmp saveSwitchStates
+jmp dice1 ;placeholder
 ret
 
-schalter2:
-;1-6 wuerfel
-jmp aenderungsSpeicherung
-jmp wuerfel2 ;placeholder
+switch2:
+;1-6 dice
+jmp saveSwitchStates
+jmp dice2 ;placeholder
 ret
 
-schalter3:
-;8051 wuerfel
-jmp aenderungsSpeicherung
-jmp wuerfel3 ;placeholder
+switch3:
+;8051 dice
+jmp saveSwitchStates
+jmp dice3 ;placeholder
 ret
