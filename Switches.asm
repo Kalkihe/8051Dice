@@ -1,75 +1,41 @@
 ;File for the main routine, polling switches
 
+jmp initialisierung
+jmp aenderunsAbfrage
+ret
+
+initialisierung:
 mov R6,#00h
+mov A,P0.0
+mov B,P0.1
+mov C,P0.2
 call aenderungsAbfrage
 
 aenderungsAbfrage:
-cjne P0,R6,welcherSchalter0
+cjne A,R6.0,schalter1
+cjne B,R6.1,schalter2
+cjne C,R6.2,schalter3
+ret
+
 
 aenderungsSpeicherung:
 mov R6,P0
 ret
 
-welcherSchalter0:
-cjne R6, #00000000, welcherSchalter1 ;00000000
-jmp aenderungsSpeicherung
-cjne P0, #10000000, schalter1 ;soll springen wenns richtig ist ...
-cjne P0, #01000000, schalter2
-cjne P0, #00100000, schalter3
-
-welcherSchalter1:
-cjne R6, #00100000, welcherSchalter2 ;00100000
-jmp aenderungsSpeicherung
-cjne P0, #10100000, schalter1
-cjne P0, #01100000, schalter2
-cjne P0, #00000000, schalter3
-
-welcherSchalter2:
-cjne R6, #01000000, welcherSchalter3
-jmp aenderungsSpeicherung
-cjne P0, #11000000, schalter1
-cjne P0, #00000000, schalter2
-cjne P0, #01100000, schalter3
-
-welcherSchalter3:
-cjne R6, #01100000, welcherSchalter4
-jmp aenderungsSpeicherung
-cjne P0, #11100000, schalter1
-cjne P0, #00100000, schalter2
-cjne P0, #01000000, schalter3
-
-welcherSchalter4:
-cjne R6, #10000000, welcherSchalter5
-jmp aenderungsSpeicherung
-cjne P0, #00000000, schalter1
-cjne P0, #11000000, schalter2
-cjne P0, #10100000, schalter3
-
-welcherSchalter5:
-cjne R6, #10100000, welcherSchalter6
-jmp aenderungsSpeicherung
-cjne P0, #00100000, schalter1
-cjne P0, #11100000, schalter2
-cjne P0, #10000000, schalter3
-
-welcherSchalter6:
-cjne R7, #11000000, welcherSchalter7
-jmp aenderungsSpeicherung
-cjne P0, #01000000, schalter1
-cjne P0, #10000000, schalter2
-cjne P0, #11100000, schalter3
-
-welcherSchalter7: ;11100000
-jmp aenderungsSpeicherung
-cjne P0, #01100000, schalter1
-cjne P0, #10100000, schalter2
-cjne P0, #11000000, schalter3
-
 schalter1:
 ;0-9 wuerfel
+jmp aenderungsSpeicherung
+jmp wuerfel1 ;placeholder
+ret
 
 schalter2:
 ;1-6 wuerfel
+jmp aenderungsSpeicherung
+jmp wuerfel2 ;placeholder
+ret
 
 schalter3:
 ;8051 wuerfel
+jmp aenderungsSpeicherung
+jmp wuerfel3 ;placeholder
+ret
