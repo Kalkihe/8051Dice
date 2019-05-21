@@ -9,5 +9,7 @@ CSEG at 100h
 ;init
 init:
 LJMP initTimer
+LJMP initSwitches
+LJMP switchDetermination
 
 
