@@ -2,7 +2,7 @@ display:
 mov DPTR, #table
 mov a, R7
 movc a, @a+dptr
-mov P3, a
+mov P1, a
 ret
 
 org 300h
