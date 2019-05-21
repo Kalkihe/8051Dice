@@ -20,7 +20,7 @@ ret
 
 switch1:
 ;0-9 dice
-jmp saveSwitchStates
+call saveSwitchStates
 mov A,R4
 clr A.6
 setb A.7
@@ -29,7 +29,7 @@ ret
 
 switch2:
 ;1-6 dice
-jmp saveSwitchStates
+call saveSwitchStates
 mov A,R4
 setb A.6
 clr A.7
@@ -38,7 +38,7 @@ ret
 
 switch3:
 ;8051 dice
-jmp saveSwitchStates
+call saveSwitchStates
 mov A,R4
 setb A.6
 setb A.7
