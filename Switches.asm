@@ -9,14 +9,14 @@ mov R6,#00h
 mov A,P0.0
 mov B,P0.1
 mov C,P0.2
-call aenderungsAbfrage
+jmp aenderungsAbfrage
+ret
 
 aenderungsAbfrage:
 cjne A,R6.0,schalter1
 cjne B,R6.1,schalter2
 cjne C,R6.2,schalter3
 ret
-
 
 aenderungsSpeicherung:
 mov R6,P0
