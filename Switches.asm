@@ -1,25 +1,27 @@
 ;File for the main routine, polling switches
 
-jmp initialisierung
-jmp aenderunsAbfrage
+jmp init 
+jmp schalterBestimmung
+
+init:
+mov R4.0,0
+mov R4.1,0
+mov R4.2,0
 ret
 
-initialisierung:
-mov R4,#00h
+schalterBestimmung:
 mov A,P0.0
-mov B,P0.1
-mov C,P0.2
-jmp aenderungsAbfrage
-ret
-
-aenderungsAbfrage:
 cjne A,R4.0,schalter1
-cjne B,R4.1,schalter2
-cjne C,R4.2,schalter3
+mov A,P0.1
+cjne A,R4.1,schalter2
+mov A,P0.2
+cjne A,R4.2,schalter3
 ret
 
 aenderungsSpeicherung:
-mov R4,P0
+mov R4.0,P0.0
+mov R4.1,P0.1
+mov R4.2,P0.2
 ret
 
 schalter1:
