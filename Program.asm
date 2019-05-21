@@ -6,6 +6,8 @@ CSEG at 0h
 JMP init
 CSEG at 100h
 
+RNDM EQU 51h
+
 org 0bh		;Adresse von Timer 0 Interrupt
 call TIMER0ISR  ;ISR von Timer 0 aufrufen
 ret		;Zurueckkehren von Interrupt
@@ -20,7 +22,7 @@ LCALL switchDetermination
 
 initSwitches:
 ;only once
-mov R4,#00h
+mov R4,P0
 ret
 
 switchDetermination:
@@ -30,7 +32,7 @@ xrl A,R4
 JB A.0,switch1		;A.0 is the pin for switch1
 JB A.1,switch2 		;A.1 is the pin for switch2
 JB A.2,switch3		;A.2 is the pin for switch3
-call switchDetermination
+jmp switchDetermination
 
 saveSwitchStates:
 mov R4,P0
@@ -43,7 +45,7 @@ mov A,R4
 clr A.6
 setb A.7
 mov R4,A		;set mode bits to "01" (1) for 0-9 dice
-ret
+call Wuerfeln
 
 switch2:
 ;1-6 dice
@@ -52,7 +54,7 @@ mov A,R4
 setb A.6
 clr A.7
 mov R4,A		;set mode bits to "01" (1) for 0-9 dice
-ret
+call Wuerfeln
 
 switch3:
 ;8051 dice
@@ -61,7 +63,7 @@ mov A,R4
 setb A.6
 setb A.7
 mov R4,A		;set mode bits to "01" (1) for 0-9 dice
-ret
+call Wuerfeln
 
 ;File for timer isr and all related stuff
 
@@ -91,16 +93,16 @@ cjne R5,#05h,nichtDieLetzteZahl
 clr TR0		;Timer deaktivieren
 mov R5,#00h	;Zaehler zuruecksetzen
 nichtdieLetzteZahl:
-; HIER NEUE ZAHL HOLEN
-LJMP display
+CaLL LadeZahl
+CALL display
 keineNeueZahl:
-ret
+reti
 
 
 Wuerfeln:
 setb TR0	;Timer starten
 mov R5,#00h	;Zähler der gezeigten Zahlen zurücksetzen
-ret
+jmp SwitchDetermination
 
 LadeZahl:
 mov A,R4
@@ -111,7 +113,7 @@ EndeLadeZahl:
 ret
 
 Hole0bis9:
-mov R7,5
+lcall ANF
 jmp EndeLadeZahl
 Hole1bis6:
 ; Aufruf
@@ -132,6 +134,60 @@ db 11000000b
 db 11111001b, 10100100b, 10110000b
 db 10011001b, 10010010b, 10000010b
 db 11111000b, 10000000b, 10010000b
+
+;-----------MAIN-----------------------------------
+ANF:
+;-----------GENERIER EINE ZUFALLSZAHL----------
+	 call ZUFALL         ;Zufallszahl A bestimmen zwischen 00h und ffh
+;----------- CASE-ANWEISUNG-------------------------
+         mov R7,#00h        ;Zähler initialisieren mit 0 
+neu:	 add A,#020h        ;die Zufallszahl plus 32 
+         inc R7            ;Zähler um 1 erhöhen
+	 jnc neu           ;falls schon Überlauf, dann weiter - sonst  addiere 32
+	
+	 mov A, R7          ;schreib Zahl in A
+
+;--------Kontrolle/Statistik------------
+        cjne A,#01h, keine1
+        inc 0x30
+        ret
+keine1:
+        cjne A,#02h, keine2
+        inc 0x31
+        ret 
+keine2:  cjne A,#03h, keine3
+        inc 0x32
+        ret  
+keine3:  cjne A,#04h, keine4
+        inc 0x33
+        ret  
+keine4:  cjne A,#05h, keine5
+        inc 0x34
+        ret 
+keine5:
+        cjne A,#06h, keine6
+        inc 0x35
+        ret 
+keine6:  cjne A,#07h, keine7
+        inc 0x36
+        ret  
+keine7:  inc 0x37
+        ret                     ;von vorn!
+;--------------------------------------------------
+
+; ------ Zufallszahlengenerator-----------------
+ZUFALL:	mov	A, RNDM   ; initialisiere A mit ZUF8R
+	jnz	ZUB
+	cpl	A
+	mov	RNDM, A
+ZUB:	anl	a, #10111000b
+	mov	C, P
+	mov	A, RNDM
+	rlc	A
+	mov	RNDM, A
+	ret
+
+
 
 end
 

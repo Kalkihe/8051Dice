@@ -4,12 +4,8 @@
 ;;;
 ;;EQU	ZUF8R, 0x20		;ein byte
 RNDM EQU 51h
-CSEG At 0H
-jmp init
-ORG 100H
 
 ;-----------MAIN-----------------------------------
-init:
 ANF:
 ;-----------GENERIER EINE ZUFALLSZAHL----------
 	 call ZUFALL         ;Zufallszahl A bestimmen zwischen 00h und ffh
