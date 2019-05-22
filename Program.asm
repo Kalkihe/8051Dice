@@ -26,6 +26,7 @@ mov R4,P0
 ret
 
 switchDetermination:
+inc RNDM
 ;call this everytime after you called "init" once
 mov A,P0
 xrl A,R4
