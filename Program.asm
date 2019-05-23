@@ -136,7 +136,7 @@ db 11111001b, 10100100b, 10110000b
 db 10011001b, 10010010b, 10000010b
 db 11111000b, 10000000b, 10010000b
 
-;-----------MAIN-----------------------------------
+
 ANF:
 ;-----------GENERIER EINE ZUFALLSZAHL----------
 	 call ZUFALL         ;Zufallszahl A bestimmen zwischen 00h und ffh
@@ -147,33 +147,7 @@ neu:	 add A,#020h        ;die Zufallszahl plus 32
 	 jnc neu           ;falls schon Überlauf, dann weiter - sonst  addiere 32
 	
 	 mov A, R7          ;schreib Zahl in A
-
-;--------Kontrolle/Statistik------------
-        cjne A,#01h, keine1
-        inc 0x30
         ret
-keine1:
-        cjne A,#02h, keine2
-        inc 0x31
-        ret 
-keine2:  cjne A,#03h, keine3
-        inc 0x32
-        ret  
-keine3:  cjne A,#04h, keine4
-        inc 0x33
-        ret  
-keine4:  cjne A,#05h, keine5
-        inc 0x34
-        ret 
-keine5:
-        cjne A,#06h, keine6
-        inc 0x35
-        ret 
-keine6:  cjne A,#07h, keine7
-        inc 0x36
-        ret  
-keine7:  inc 0x37
-        ret                     ;von vorn!
 ;--------------------------------------------------
 
 ; ------ Zufallszahlengenerator-----------------
