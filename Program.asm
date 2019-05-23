@@ -94,7 +94,7 @@ cjne R5,#05h,nichtDieLetzteZahl
 clr TR0		;Timer deaktivieren
 mov R5,#00h	;Zaehler zuruecksetzen
 nichtdieLetzteZahl:
-CaLL LadeZahl
+CaLL GetRandom
 CALL display
 keineNeueZahl:
 reti
@@ -105,23 +105,6 @@ setb TR0	;Timer starten
 mov R5,#00h	;Zähler der gezeigten Zahlen zurücksetzen
 jmp SwitchDetermination
 
-LadeZahl:
-mov A,R4
-jnb A.6,Hole0bis9
-jnb A.7,Hole1bis6
-call Hole8051
-EndeLadeZahl:
-ret
-
-Hole0bis9:
-lcall ANF
-jmp EndeLadeZahl
-Hole1bis6:
-; Aufruf
-jmp EndeLadeZahl
-Hole8051:
-; Aufruf
-jmp EndeLadeZahl
 
 display:
 mov DPTR, #table ;Load table data to data pointers location
@@ -137,7 +120,7 @@ db 10011001b, 10010010b, 10000010b
 db 11111000b, 10000000b, 10010000b
 
 
-ANF:
+GetRandom:
 ;-----------GENERIER EINE ZUFALLSZAHL----------
 	 call ZUFALL         ;Zufallszahl A bestimmen zwischen 00h und ffh
 ;----------- CASE-ANWEISUNG-------------------------
@@ -145,8 +128,13 @@ ANF:
 neu:	 add A,#020h        ;die Zufallszahl plus 32 
          inc R7            ;Zähler um 1 erhöhen
 	 jnc neu           ;falls schon Überlauf, dann weiter - sonst  addiere 32
-	
-	 mov A, R7          ;schreib Zahl in A
+
+	mov A, R7
+	jb A.3, GetRandom
+	jnb A.2, Small
+	clr A.1
+Small:	inc A 
+	mov R7, A          ;schreib Zahl in A
         ret
 ;--------------------------------------------------
 
@@ -161,8 +149,6 @@ ZUB:	anl	a, #10111000b
 	rlc	A
 	mov	RNDM, A
 	ret
-
-
 
 end
 
